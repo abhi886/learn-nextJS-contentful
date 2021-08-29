@@ -32,8 +32,8 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       receipes: items[0],
-      revalidate: 1,
     },
+    revalidate: 10,
   };
 }
 export default function RecipeDetails({ receipes }) {
