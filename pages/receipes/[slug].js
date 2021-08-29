@@ -18,6 +18,7 @@ export async function getStaticPaths() {
       params: { slug: item.fields.slug },
     };
   });
+
   return {
     paths,
     fallback: true,
@@ -30,6 +31,14 @@ export async function getStaticProps({ params }) {
     "fields.slug": params.slug,
   });
 
+  if (!items.length) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
   return {
     props: {
       receipes: items[0],
