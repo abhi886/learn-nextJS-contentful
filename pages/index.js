@@ -12,6 +12,7 @@ export async function getStaticProps() {
   return {
     props: {
       receipes: res.items,
+      revalidate: 1,
     },
   };
 }
