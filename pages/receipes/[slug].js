@@ -1,4 +1,6 @@
 import { createClient } from "contentful";
+import Image from "next/image";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 const client = createClient({
   space: process.env.CONTENTFUL_SPACE_ID,
@@ -34,6 +36,29 @@ export async function getStaticProps({ params }) {
   };
 }
 export default function RecipeDetails({ receipes }) {
-  console.log(receipes);
-  return <div>{receipes.fields.title}</div>;
+  const { featuredImage, title, cookingTime, ingredients, method } =
+    receipes.fields;
+  return (
+    <div>
+      <div className='banner'>
+        <Image
+          src={`https:${featuredImage.fields.file.url}`}
+          width={featuredImage.fields.file.details.image.width}
+          height={featuredImage.fields.file.details.image.height}
+        ></Image>
+        <h2>{title}</h2>
+      </div>
+      <div className='info'>
+        <p>Take about {cookingTime} </p>
+        <h3>Ingredients</h3>
+        {ingredients.map((ing) => (
+          <sppan key={ing}> {ing} </sppan>
+        ))}
+      </div>
+      <div className='method'>
+        <h3>Method:</h3>
+        <div>{documentToReactComponents(method)}</div>
+      </div>
+    </div>
+  );
 }
